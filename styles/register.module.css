@@ -1,0 +1,29 @@
+.register_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 320px;
+  height: 970px;
+  border-radius: 25px;
+  box-shadow: rgb(34 34 34 / 10%) 0px 8px 22px 6px;
+  border: 1px solid rgba(225, 225, 225, 0);
+  padding: 0 65px 0 65px;
+}
+.register_title {
+  font-size: 28px;
+  color: black;
+  margin-bottom: 65px;
+}
+.item_title {
+  text-align: left;
+  font-size: 16px;
+  color: black;
+}
+.choose_gender {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
