@@ -15,13 +15,22 @@
     "ahooks": "^2.10.0",
     "babel-plugin-styled-components": "^1.12.0",
     "emmet": "^2.3.4",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
     "js-cookie": "^2.2.1",
     "next": "latest",
+    "nextjs-websocket": "^1.0.2",
     "nuka-carousel": "^4.7.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "5.7.2",
-    "react-jss": "^10.6.0"
+    "react-jss": "^10.6.0",
+    "react-smoothie": "^0.12.6",
+    "reconnecting-websocket": "^4.4.0",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1",
+    "websocket": "^1.0.34",
+    "ws": "4.1.0"
   },
   "license": "MIT",
   "keywords": [
