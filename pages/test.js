@@ -58,7 +58,7 @@ export default function IndexPage() {
   }
   const handleMessage = (event) => {
     var time = new Date().getTime();
-    ts1.append(time, parseInt(event.data));
+    ts1.append(time, parseFloat(event.data));
     console.log(time, event.data);
   };
   const handleClose = () => {
@@ -104,6 +104,7 @@ export default function IndexPage() {
       <SmoothieComponent
         responsive
         height={300}
+        tooltip={true}
         series={[
           {
             data: ts1,
