@@ -16,27 +16,45 @@ import { withStyles } from "@material-ui/core/styles";
   生成0~1随机数，发送post请求
   一次发送十个
 */
-const test = () => {
+var host = "106.52.19.50";
+function randomNum(minNum,maxNum){ 
+  switch(arguments.length){ 
+  case 1: 
+   return parseInt(Math.random()*minNum+1); 
+  break; 
+  case 2: 
+   return parseInt(Math.random()*(maxNum-minNum+1)+minNum); 
+  break; 
+  default: 
+   return 0; 
+  break; 
+  } 
+ } 
+ 
+const postData = () => {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
   var i = 0;
-  for(i = 0; i < 10; i++){
-    var urlencoded = new URLSearchParams();
-    urlencoded.append((Math.random()*10).toString(), "");
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: 'follow'
-    };
-
-    fetch("http://119.23.233.64:8081/diagram", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+  var urlencoded = new URLSearchParams();
+  var data = [];
+  for(i = 0; i < 8 ; i++ ){
+    data.push(randomNum(10, 99).toString());
   }
-  
+  urlencoded.append(data.join(" "), "");
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+  };
+  fetch("http://"+host+":8090/api/sendnsave", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+const test = () => {
+  setInterval(postData, 100);
 }
 const LoginButton = withStyles({
   root: {
@@ -57,11 +75,15 @@ export default function IndexPage() {
     alert("连接成功");
   }
   const handleMessage = (event) => {
-    var time = new Date().getTime();
-    ts1.append(time, parseFloat(event.data));
-    console.log(time, event.data);
+    let time = new Date().getTime();
+    let data = JSON.parse(event.data);
+    // let stringtime = data.collect_time;
+    // let time = Date.parse(new Date(stringtime));
+    ts1.append(time, data.p0);
+    console.log(time, data);
   };
   const handleClose = () => {
+
     alert("断开连接");
   }
   const options = {
@@ -76,7 +98,7 @@ export default function IndexPage() {
     latestMessage,
     disconnect,
     connect
-  } = useWebSocket("ws://119.23.233.64:8081/showdiagram", options);
+  } = useWebSocket("ws://"+host+":8090/api/connws", options);
   return (
     <div>
       <h3>
@@ -105,6 +127,10 @@ export default function IndexPage() {
         responsive
         height={300}
         tooltip={true}
+        timestampFormatter= {(timestamp)=> {
+          let date = new Date(timestamp);
+          return date.toTimeString().slice(0,8);
+        }}
         series={[
           {
             data: ts1,

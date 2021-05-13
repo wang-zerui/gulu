@@ -2150,7 +2150,7 @@ react-refresh@0.8.3:
 
 react-smoothie@^0.12.6:
   version "0.12.6"
-  resolved "https://registry.npm.taobao.org/react-smoothie/download/react-smoothie-0.12.6.tgz#2a24885f811e58e262f8b3dfab88c8285833e8dd"
+  resolved "https://registry.nlark.com/react-smoothie/download/react-smoothie-0.12.6.tgz#2a24885f811e58e262f8b3dfab88c8285833e8dd"
   integrity sha1-KiSIX4EeWOJi+LPfq4jIKFgz6N0=
   dependencies:
     react "^17.0.1"
