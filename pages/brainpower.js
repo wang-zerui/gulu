@@ -193,11 +193,8 @@ const LoginButton = withStyles({
   }
 })(Button);
 
-const ts1 = new TimeSeries({});
-const ts2 = new TimeSeries({
-  resetBounds: true,
-  resetBoundsInterval: 3000
-});
+const ts = new TimeSeries[8];
+
 
 export default function BrainPowerPage(){
     const styles = useStyles();
@@ -220,8 +217,14 @@ export default function BrainPowerPage(){
         let data = JSON.parse(event.data);
         let stringtime = data.collect_time;
         let time = Date.parse(new Date(stringtime));
-        ts1.append(time, data.p0);
-        ts2.append(time, data.p1);
+        ts[0].append(time, data.p0);
+        ts[1].append(time, data.p1);
+        ts[2].append(time, data.p2);
+        ts[3].append(time, data.p3);
+        ts[4].append(time, data.p4);
+        ts[5].append(time, data.p5);
+        ts[3].append(time, data.p2);
+        ts[7].append(time, data.p7);
         console.log(time, data);
       };
       const handleClose = () => {
@@ -276,9 +279,10 @@ export default function BrainPowerPage(){
                 <div className={styles.right_card}>
                 <div className={styles.paper_all1} >
                     <div className={styles.paper_1}>
-                    <SmoothieComponent
+                    {ts.map((t) => (
+                        <SmoothieComponent
                         responsive
-                        height={100}
+                        height={78}
                         // streamDelay={200}
                         // tooltip={true}
                         timestampFormatter= {(timestamp)=> {
@@ -287,30 +291,14 @@ export default function BrainPowerPage(){
                         }}
                         series={[
                         {
-                            data: ts1,
+                            data: t,
                             strokeStyle: { g: 255 },
                             fillStyle: { g: 255 },
                             lineWidth: 4
                         }
                         ]}
                     />
-                    <SmoothieComponent
-                        responsive
-                        height={100}
-                        // tooltip={true}
-                        timestampFormatter= {(timestamp)=> {
-                            let date = new Date(timestamp);
-                            return date.toTimeString().slice(0,5);
-                        }}
-                        series={[
-                        {
-                            data: ts2,
-                            strokeStyle: { r: 255 },
-                            fillStyle: { r: 255 },
-                            lineWidth: 4
-                        }
-                        ]}
-                    />
+                    ))}
                     </div>
                     <div className={styles.paper_2}>
                         
