@@ -40,7 +40,7 @@ const postData = () => {
   for(i = 0; i < 8 ; i++ ){
     data.push(randomNum(10, 99).toString());
   }
-  urlencoded.append(data.join(" "), "");
+  urlencoded.append("data",data.join(" "));
 
   var requestOptions = {
     method: 'POST',

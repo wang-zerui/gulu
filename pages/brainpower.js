@@ -6,8 +6,9 @@ import {Grid,Container,Paper,Button,Typography} from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme)=>({
     logo:{
-        marginLeft: "1764px",
-        marginTop: "0px",
+        position: "absolute",
+        top: 10,
+        right: 10
     },
     content:{
         display:"flex",
@@ -168,7 +169,7 @@ const postData = () => {
   for(i = 0; i < 8 ; i++ ){
     data.push(randomNum(10, 99).toString());
   }
-  urlencoded.append(data.join(" "), "");
+  urlencoded.append("data", data.join(" "));
 
   var requestOptions = {
     method: 'POST',
@@ -221,17 +222,14 @@ export default function BrainPowerPage(){
       const handleMessage = (event) => {
         // let time = new Date().getTime();
         let data = JSON.parse(event.data);
-        let stringtime = data.collect_time;
+        let datainfo = data.datainfo;
+        let stringtime = datainfo.collect_time;
         let time = Date.parse(new Date(stringtime));
-        ts[0].append(time, data.p0);
-        ts[1].append(time, data.p1);
-        ts[2].append(time, data.p2);
-        ts[3].append(time, data.p3);
-        ts[4].append(time, data.p4);
-        ts[5].append(time, data.p5);
-        ts[3].append(time, data.p2);
-        ts[7].append(time, data.p7);
-        console.log(time, data);
+
+        for(let i=0;i<8;i++){
+            ts[i].append(time, data.data[i]);
+        }
+        
       };
       const handleClose = () => {
         alert("断开连接");
@@ -251,9 +249,9 @@ export default function BrainPowerPage(){
       } = useWebSocket("ws://"+host+":8090/api/connws", options);
     return(
         <div style={style.bgd}>
-            {/* <div className={styles.logo}>
-                <img src="/login_logo.png" width= "154px" height="139px"></img>
-            </div> */}
+            <div className={styles.logo}>
+                <img src="/login-logo.png" width= "154px" height="139px"></img>
+            </div>
             <div className={styles.content}>
                 <div className={styles.left_card}>
                     <div className={styles.choice_card1}>
@@ -288,12 +286,12 @@ export default function BrainPowerPage(){
                     {ts.map((t) => (
                         <SmoothieComponent
                         responsive
-                        height={78}
+                        height={69}
                         // streamDelay={200}
                         // tooltip={true}
                         timestampFormatter= {(timestamp)=> {
                             let date = new Date(timestamp);
-                            return date.toTimeString().slice(0,5);
+                            return date.toTimeString().slice(0,8);
                         }}
                         series={[
                         {
