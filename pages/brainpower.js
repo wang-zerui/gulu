@@ -193,7 +193,13 @@ const LoginButton = withStyles({
   }
 })(Button);
 
-const ts = new TimeSeries[8];
+let ts = [];
+let i = 0;
+for(i = 0; i<8 ;i++)
+{
+    ts[i] = new TimeSeries;
+}
+
 
 
 export default function BrainPowerPage(){
