@@ -72,8 +72,8 @@ export default function IndexPage() {
         <Link href="#" className={styles.link}>
           首页
         </Link>
-        <Link href="#" className={styles.link}>
-          量表测试
+        <Link href="/brainpower" className={styles.link}>
+          脑电图
         </Link>
         <Link href="#" className={styles.link}>
           医疗咨询

@@ -145,7 +145,7 @@ const useStyles = makeStyles((theme)=>({
 
 }));
 
-var host = "106.52.19.50";
+var host = "8.131.62.53:8080";
 function randomNum(minNum,maxNum){ 
   switch(arguments.length){ 
   case 1: 
@@ -246,7 +246,7 @@ export default function BrainPowerPage(){
         latestMessage,
         disconnect,
         connect
-      } = useWebSocket("ws://"+host+":8090/api/connws", options);
+      } = useWebSocket("ws://"+host+"/api/connws", options);
     return(
         <div style={style.bgd}>
             <div className={styles.logo}>
