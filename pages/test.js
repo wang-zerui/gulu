@@ -3,19 +3,9 @@ import React from "react";
 import { useWebSocket } from "ahooks";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
-// global.WebSocket = require('ws');
-// enum ReadyState {
-//   Connecting = 0,
-//   Open = 1,
-//   Closing = 2,
-//   Closed = 3,
-// }
-/*
-  用于测试数据的函数
-  用于模拟硬件传递的数据
-  生成0~1随机数，发送post请求
-  一次发送十个
-*/
+import WaveSurfer from 'wavesurfer.js'
+import Timeline from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.js'
+
 var host = "106.52.19.50";
 function randomNum(minNum,maxNum){ 
   switch(arguments.length){ 
@@ -65,11 +55,36 @@ const LoginButton = withStyles({
   }
 })(Button);
 
-const ts1 = new TimeSeries({});
-const ts2 = new TimeSeries({
-  resetBounds: true,
-  resetBoundsInterval: 3000
+wavesurfer = WaveSurfer.create({
+  container: '#audioChart',//容器
+  waveColor: '#1DE3FA',//波形图颜色
+  progressColor: '#159faf',//进度条颜色
+  backend: 'MediaElement',
+  mediaControls: false,
+  audioRate: '1',//播放音频的速度
+  //插件
+  plugins: [
+      //时间轴插件
+      // Timeline.create({
+      //     container: '#wave-timeline'
+      // }),
+      // 光标插件
+      // CursorPlugin.create({
+      //     showTime: true,
+      //     opacity: 1,
+      //     customShowTimeStyle: {
+      //         backgroundColor: '#000',
+      //         color: '#fff',
+      //         padding: '2px',
+      //         fontSize: '10px'
+      //     }
+      // }),
+  ]
 });
+// 特别提醒：此处需要使用require(相对路径)，否则会报错
+wavesurfer.load("/test.flac");
+
+
 export default function IndexPage() {
   const handleOpen = (event) => {
     alert("连接成功");
@@ -98,15 +113,11 @@ export default function IndexPage() {
     latestMessage,
     disconnect,
     connect
-  } = useWebSocket("ws://"+host+":8090/api/connws", options);
+  } = useWebSocket("ws://106.52.19.50:8086/api/heart", options);
   return (
     <div>
       <h3>
-      用于测试数据的函数
-      用于模拟硬件传递的数据
-      生成0~1随机数，发送post请求
-      一次发送十个
-      通过http://119.23.233.64:8081/diagram
+        测试音频波形图
       </h3>
       <LoginButton
         onClick={() => {
@@ -118,34 +129,8 @@ export default function IndexPage() {
           disconnect();
         }}
       >断开连接</LoginButton>
-       <LoginButton
-        onClick={() => {
-          test();
-        }}
-      >模拟硬件，发送到后端一堆随机数</LoginButton>
-      <SmoothieComponent
-        responsive
-        height={300}
-        tooltip={true}
-        timestampFormatter= {(timestamp)=> {
-          let date = new Date(timestamp);
-          return date.toTimeString().slice(0,8);
-        }}
-        series={[
-          {
-            data: ts1,
-            strokeStyle: { g: 255 },
-            fillStyle: { g: 255 },
-            lineWidth: 4
-          },
-          {
-            data: ts2,
-            strokeStyle: { r: 255 },
-            fillStyle: { r: 255 },
-            lineWidth: 4
-          }
-        ]}
-      />
+      <div id="#audioChart">
+      </div>
     </div>
   );
 }
