@@ -2,7 +2,7 @@ import React from "react";
 import SmoothieComponent, { TimeSeries } from "react-smoothie";
 import { useWebSocket } from "ahooks";
 import Image from "next/image";
-import {Grid,Container,Paper,Button,Typography} from "@material-ui/core";
+import {Grid,Container,Paper,Button,Typography, TextField} from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme)=>({
   header:{
@@ -104,8 +104,8 @@ export default function BrainPowerPage(){
             backgroundImage: `url("/hospital.png")`,
             height: "1080px",
             backgroundColor: "#DFDFDF",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat"
+            backgroundSize: "cover",
+            backgroundPosition: "50%",
         }
     };
     var sleep = function(time) {
@@ -164,7 +164,7 @@ export default function BrainPowerPage(){
           }}
           grid={{
             sharpLines:true,
-            millisPerLine:5000
+            millisPerLine:5000  
           }}
           series={[
           {
@@ -185,7 +185,7 @@ export default function BrainPowerPage(){
           <div className={styles.footer}>
             <div className={styles.funcBtn}>暂停</div>
             <div className={styles.funcBtn}>开始</div>
-            <div className={styles.funcBtn}>回放</div>
+            <div className={styles.funcBtn} onClick={handleClick()}>回放</div>
           </div>
         </div>
     );

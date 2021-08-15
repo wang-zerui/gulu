@@ -2167,6 +2167,11 @@ react-transition-group@^4.4.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-wavesurfer@^0.8.6:
+  version "0.8.6"
+  resolved "https://registry.nlark.com/react-wavesurfer/download/react-wavesurfer-0.8.6.tgz#da05f3f501e566a63853f9babec45a5251111538"
+  integrity sha1-2gXz9QHlZqY4U/m6vsRaUlERFTg=
+
 react@^16.13.1:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
@@ -2676,6 +2681,11 @@ watchpack@2.1.1:
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
+
+wavesurfer.js@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.nlark.com/wavesurfer.js/download/wavesurfer.js-5.1.0.tgz#7155e76da76ab293b45c80e5c7feeba0a7a282cd"
+  integrity sha1-cVXnbadqspO0XIDlx/7roKeigs0=
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
