@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import WaveSurfer from 'wavesurfer.js'
 
+
 export default class Waveform extends React.Component {
   constructor(props) {
     super(props)
@@ -10,6 +11,7 @@ export default class Waveform extends React.Component {
     }
   }
   componentDidMount() {
+    this.post_src = this.props.src;
     this.$el = ReactDOM.findDOMNode(this)
     this.$waveform = this.$el.querySelector('.wave')
     this.wavesurfer = WaveSurfer.create({
@@ -21,11 +23,8 @@ export default class Waveform extends React.Component {
       audioRate: '1',//播放音频的速度
     })
     if(this.props.src != ""){
-        this.wavesurfer.load(this.props.src)
+      this.wavesurfer.load(this.props.src)
     }
-  }
-  componentWillUnmount() {
-
   }
   
   render() {
@@ -33,9 +32,14 @@ export default class Waveform extends React.Component {
       <div className='waveform'>
         <div className='wave'></div>
         <button onClick={()=>{
+          if(this.post_src === this.props.src){
+            this.wavesurfer.playPause();
+          }else{
+            this.post_src = this.props.src;
             this.wavesurfer.load(this.props.src)
             this.wavesurfer.play()
-        }}>播放</button>
+          }
+        }}>播放/暂停</button>
       </div>
     )
   }
