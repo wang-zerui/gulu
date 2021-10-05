@@ -129,7 +129,7 @@ export default function Test(){
     }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-      };
+    };
     
     const handleClose = () => {
         setAnchorEl(null);
@@ -171,89 +171,7 @@ export default function Test(){
                 <div className={classes.lungChoice}>肺音图仪</div>
             </div>
             <div className={classes.wave}>
-                <Waveform src={src}/>
-            </div>
-            <div className={classes.footer}>
-                <div className={classes.funcBtn}>暂停</div>
-                <div className={classes.funcBtn}>开始</div>
-                <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                >
-                    <form className={classes.container} noValidate>
-                        <TextField
-                            id="datetime-start"
-                            label="开始时间"
-                            type="datetime-local"
-                            defaultValue="2021-08-03T09:55"
-                            className={classes.textField}
-                            onChange={handleChange}
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                        />
-                        
-                        <Slider
-                            defaultValue={0}
-                            // getAriaValueText={startSecond}
-                            onChange={(e) => {
-                                setStartSecond(`${e.target.ariaValueNow}`)
-                            }}
-                            aria-labelledby="discrete-slider"
-                            valueLabelDisplay="auto"
-                            step={1}
-                            marks
-                            min={0}
-                            max={59}
-                        />
-                        <br></br>
-                        <TextField
-                            id="datetime-start"
-                            label="结束时间"
-                            type="datetime-local"
-                            defaultValue="2021-08-03T09:56"
-                            className={classes.textField}
-                            onChange={handleChange2}
-                            InputLabelProps={{
-                                shrink: true,
-                                }}
-                        />
-                        
-                        <Slider
-                            defaultValue={0}
-                            // getAriaValueText={endSecond}
-                            onChange={(e) => {
-                                setEndSecond(`${e.target.ariaValueNow}`)
-                            }}
-                            aria-labelledby="discrete-slider"
-                            valueLabelDisplay="auto"
-                            step={1}
-                            marks
-                            min={0}
-                            max={59}
-                        />
-                        <Button 
-                            variant="contained"
-                            color="default"
-                            className={classes.button}
-                            startIcon={<PlayArrowIcon/>}
-                            onClick={replay}
-                        >
-                            回放
-                        </Button>
-                    </form>
-                </Popover>
-                <div className={classes.funcBtn} onClick={handleClick}>回放</div>
+              <Waveform src={src}/>
             </div>
         </div>
     );
