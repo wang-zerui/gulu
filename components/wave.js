@@ -57,7 +57,6 @@ class Waveform extends React.Component {
     }
   }
   componentDidMount() {
-    this.post_src = this.props.src;
     this.$el = ReactDOM.findDOMNode(this)
     this.$waveform = this.$el.querySelector('.wave')
     this.wavesurfer = WaveSurfer.create({
@@ -69,8 +68,10 @@ class Waveform extends React.Component {
       barHeight: '5',
       audioRate: '1',//播放音频的速度
     })
-    if (this.props.src != "") {
-      this.wavesurfer.load(this.props.src)
+    this.post_src = "";
+    if(this.props.src){
+      this.post_src = this.props.src;
+      this.wavesurfer.load(this.post_src);
     }
   }
 
@@ -147,24 +148,7 @@ class Waveform extends React.Component {
       handleClose1();
       this.wavesurfer.play();
     }
-
-    const recordList = [
-      {
-        userId: "1",
-        recordId: "1",
-        music_id: "1001",
-        start_time: "2021-08-03 9:55:56",
-        end_time: "2021-08-03 9:56:28",
-        remark: "备注：测试列表项1"
-      }, {
-        userId: "1",
-        recordId: "2",
-        music_id: "1002",
-        start_time: "2021-08-03 9:55:56",
-        end_time: "2021-08-03 9:56:28",
-        remark: "备注：测试列表项2"
-      },
-    ]
+    const { recordList } = this.props;
 
     const list = recordList.map((item, i) => (
       <ListItem disablePadding key={i} onClick={() => recordReplay(item.userId, item.start_time, item.end_time)}>
