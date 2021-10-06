@@ -5,6 +5,17 @@ import { makeStyles, withStyles } from '@material-ui/core'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Slider from '@material-ui/core/Slider';
 import { TextField, Popover, Button, Snackbar } from '@material-ui/core';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import FolderIcon from '@mui/icons-material/Folder';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import HearingIcon from '@mui/icons-material/Hearing';
+
 
 const useStyles = {
   textField: {
@@ -41,6 +52,7 @@ class Waveform extends React.Component {
     super(props)
     this.state = {
       anchorEl: null,
+      anchorEl1: null,
       src: "",
     }
   }
@@ -64,63 +76,142 @@ class Waveform extends React.Component {
 
   render() {
     const { classes } = this.props;
-		this.open = Boolean(this.state.anchorEl);
-		this.id = this.open ? 'simple-popover' : undefined;
+    this.open = Boolean(this.state.anchorEl);
+    this.id = this.open ? 'simple-popover' : undefined;
 
-		const handleClose = () => {
-			this.setState({
-				anchorEl: null
-			})
-			console.log("anchorEl: ", this.state.anchorEl);
-		};
-		
-		const handleChange = (e, newTime) => {
-			e.target.defaultValue = e.target.value;
-			this.setState({
-				startTime: e.target.value
-			})
-		}
+    this.open1 = Boolean(this.state.anchorEl1);
+    this.id1 = this.open1 ? 'simple-popover' : undefined;
 
-		const handleChange2 = (e, newTime) => {
-			e.target.defaultValue = e.target.value;
-			this.setState({
-				endTime: e.target.value
-			})
-		}
+    const handleClose = () => {
+      this.setState({
+        anchorEl: null
+      })
+      console.log("anchorEl: ", this.state.anchorEl);
+    };
 
-		const handleClick = (event) => {
-			this.setState({
-				anchorEl: event.currentTarget
-			})
-		}
+    const handleClose1 = () => {
+      this.setState({
+        anchorEl1: null
+      })
+      console.log("anchorEl1: ", this.state.anchorEl1);
+    };
 
-		const getUserId = () => {
-			return 1
-		};
+    const handleChange = (e, newTime) => {
+      e.target.defaultValue = e.target.value;
+      this.setState({
+        startTime: e.target.value
+      })
+    }
+
+    const handleChange2 = (e, newTime) => {
+      e.target.defaultValue = e.target.value;
+      this.setState({
+        endTime: e.target.value
+      })
+    }
+
+    const handleClick = (event) => {
+      this.setState({
+        anchorEl: event.currentTarget
+      })
+    }
+
+    const handleClick1 = (event) => {
+      this.setState({
+        anchorEl1: event.currentTarget
+      })
+    }
+
+    const getUserId = () => {
+      return 1
+    };
 
     let startSecond = "0";
     let endSecond = "0";
     let startTime = "2021-08-03T9:55";
     let endTime = "2021-08-03T9:56";
 
-		const replay = () => {
-			const s = startTime.replace('T', ' ') + `:${startSecond}`;
+    const replay = () => {
+      const s = startTime.replace('T', ' ') + `:${startSecond}`;
       const e = endTime.replace('T', ' ') + `:${endSecond}`;
-			const userId = getUserId();
-			this.wavesurfer.load('http://8.131.62.53:8080/api/audio/details?userId='+userId+'&start_time='+s+'&end_time='+e);
-			handleClose();
-			this.wavesurfer.play();
-		}
+      const userId = getUserId();
+      this.wavesurfer.load('http://8.131.62.53:8080/api/audio/details?userId=' + userId + '&start_time=' + s + '&end_time=' + e);
+      handleClose();
+      this.wavesurfer.play();
+    }
+
+    const recordReplay = (uid, s, e) => {
+      console.log("replayRecord", uid, s, e);
+      const userId = uid;
+      this.wavesurfer.load('http://8.131.62.53:8080/api/audio/details?userId='+userId+'&start_time='+s+'&end_time='+e);
+      handleClose1();
+      this.wavesurfer.play();
+    }
+
+    const recordList = [
+      {
+        userId: "1",
+        recordId: "1",
+        music_id: "1001",
+        start_time: "2021-08-03 9:55:56",
+        end_time: "2021-08-03 9:56:28",
+        remark: "备注：测试列表项1"
+      }, {
+        userId: "1",
+        recordId: "2",
+        music_id: "1002",
+        start_time: "2021-08-03 9:55:56",
+        end_time: "2021-08-03 9:56:28",
+        remark: "备注：测试列表项2"
+      },
+    ]
+
+    const list = recordList.map((item, i) => (
+      <ListItem disablePadding key={i} onClick={() => recordReplay(item.userId, item.start_time, item.end_time)}>
+        <ListItemButton >
+          <ListItemIcon>
+            < HearingIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={`${item.start_time} - ${item.end_time}`}
+            secondary={item.remark} />
+        </ListItemButton>
+      </ListItem>
+    ))
 
     return (
       <div className='waveform'>
         <div className='wave'></div>
         <div className={classes.footer}>
           <div className={classes.funcBtn} onClick={() => {
-						this.wavesurfer.playPause();
-					}
-					}>播放</div>
-          <div className={classes.funcBtn}>列表</div>
+            this.wavesurfer.playPause();
+          }
+          }>播放/暂停</div>
+          <Popover
+            id={this.id1}
+            open={this.open1}
+            anchorEl={this.state.anchorEl1}
+            onClose={handleClose1}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+          >
+            <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+              <nav aria-label="secondary mailbox folders">
+                <List>
+                  {
+                    list
+                  }
+                </List>
+              </nav>
+            </Box>
+          </Popover>
+          <div className={classes.funcBtn} onClick={handleClick1}>列表</div>
           <Popover
             id={this.id}
             open={this.open}
@@ -152,7 +243,7 @@ class Waveform extends React.Component {
                 defaultValue={0}
                 // getAriaValueText={startSecond}
                 onChange={(e) => {
-									startSecond = `${e.target.ariaValueNow}`
+                  startSecond = `${e.target.ariaValueNow}`
                 }}
                 aria-labelledby="discrete-slider"
                 valueLabelDisplay="auto"
@@ -178,7 +269,7 @@ class Waveform extends React.Component {
                 defaultValue={0}
                 // getAriaValueText={endSecond}
                 onChange={(e) => {
-									endSecond = `${e.target.ariaValueNow}`
+                  endSecond = `${e.target.ariaValueNow}`
                 }}
                 aria-labelledby="discrete-slider"
                 valueLabelDisplay="auto"

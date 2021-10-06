@@ -1,12 +1,8 @@
 import React, { useState,Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Popover, Button, Snackbar } from '@material-ui/core';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import { Snackbar } from '@material-ui/core';
 import { Alert } from "@material-ui/lab";
 import dynamic from "next/dynamic";
-import { ControlCamera } from '@material-ui/icons';
-import Slider from '@material-ui/core/Slider';
-import { TimePicker,  MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 const Waveform = dynamic(() => import("../components/wave"), { ssr: false });
 
