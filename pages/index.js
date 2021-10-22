@@ -37,6 +37,7 @@ export default function IndexPage() {
     logout();
     location.reload();
   };
+
   const toLogin = () => {
     Router.push("/login");
   };
@@ -75,8 +76,8 @@ export default function IndexPage() {
         <Link href="/brainpower" className={styles.link}>
           脑电图
         </Link>
-        <Link href="#" className={styles.link}>
-          医疗咨询
+        <Link href="/heart" className={styles.link}>
+          心音
         </Link>
         <Link href="#" className={styles.link}>
           名师论坛

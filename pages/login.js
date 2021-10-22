@@ -163,9 +163,6 @@ export default function IndexPage() {
       }
     }
   }))(ToggleButton);
-  const [alertType, setAlertType] = useState("error");
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [identity, setIdentity] = React.useState("patient");
@@ -173,6 +170,9 @@ export default function IndexPage() {
     setIdentity(newIdentity);
   };
 
+  const [alertType, setAlertType] = useState("error");
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const showAlert = (type, msg) => {
     setAlertType(type);
     setMessage(msg);

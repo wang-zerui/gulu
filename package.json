@@ -32,7 +32,7 @@
     "react-dom": "^16.13.1",
     "react-hook-form": "5.7.2",
     "react-jss": "^10.6.0",
-    "react-smoothie": "^0.12.6",
+    "react-smoothie": "^0.13.1",
     "react-wavesurfer": "^0.8.6",
     "reconnecting-websocket": "^4.4.0",
     "socket.io": "^4.0.1",

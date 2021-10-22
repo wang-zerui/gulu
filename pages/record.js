@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from "@material-ui/lab";
 import dynamic from "next/dynamic";
+import { isLogin } from "../components/user.js";
+
 
 const Waveform = dynamic(() => import("../components/wave"), { ssr: false });
 
@@ -172,4 +174,16 @@ export default function Test(){
         </div>
     );
     
+}
+
+export async function getServerSideProps(ctx) {
+  if(isLogin()){
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  return { props: {} }
 }
