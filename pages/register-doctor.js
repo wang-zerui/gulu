@@ -10,6 +10,8 @@ import API_CONFIG from "../components/API_CONFIG";
 import Cookies from "js-cookie";
 import { useForm } from 'react-hook-form';
 
+// 两个样式分别对应全局样式和背景样式
+// 与其他login.js页面定义方式一样
 const useStyles = makeStyles({
   register_card: {
     display: "flex",
@@ -54,8 +56,13 @@ const style = {
   }
 };
 
+
+// 这个页面感觉做的还是不错的， 没啥太要说的
 export default function IndexPage() {
+  // 样式定义
   const styles = useStyles();
+
+  // 自定义组件
   const StyledTextField = withStyles((theme) => ({
     root: {
       marginTop: 25
@@ -108,9 +115,8 @@ export default function IndexPage() {
     }
   })(Button);
 
-  const [alertType, setAlertType] = useState("error");
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
+  // 几个useState
+  // 跟后面几个选项绑定
   const [gender, setGender] = useState("男");
   const [loading, setLoading] = useState(false);
   const handleGender = (event, newGender) => {
@@ -120,12 +126,20 @@ export default function IndexPage() {
   const handleDepartment = (event, newDepartment) => {
     setDepartment(newDepartment);
   };
+
+  // alert提示框
+  const [alertType, setAlertType] = useState("error");
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const showAlert = (type, msg) => {
     setAlertType(type);
     setMessage(msg);
     setOpen(true);
   }
 
+  // 用到了一个useForm钩子，https://www.jianshu.com/p/fa6e3d76bcaa
+  // 不是很难理解
+  // yysy这里不用也行
   const { register, handleSubmit } = useForm();
   const handleRegister = (data, e) => {
     let error = false;
@@ -212,6 +226,9 @@ export default function IndexPage() {
           />
           <div className={styles.choose_gender}>
             <span className={styles.item_title}>性别</span>
+            {/* 这里的StyleToggleButtonGroup是个挺巧妙地玩意
+            具体参考 https://mui.com/zh/components/toggle-button/
+            BTW, 用的时候的文档可能和现在的不大一样了，应该也差不太多*/}
             <StyledToggleButtonGroup
               size="small"
               value={gender}

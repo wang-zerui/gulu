@@ -10,6 +10,8 @@ import API_CONFIG from "../components/API_CONFIG";
 import Cookies from "js-cookie";
 import { useForm } from 'react-hook-form';
 
+
+// 该页面类似register-doctor
 const useStyles = makeStyles({
   register_card: {
     display: "flex",

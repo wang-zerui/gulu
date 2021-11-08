@@ -9,6 +9,8 @@ import { isLogin, logout, loginUserPhone } from "../components/user.js";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
+
+// 基于materialui的button自定义的button
 const ColorButton = withStyles((theme) => ({
   root: {
     fontSize: 20,
@@ -33,15 +35,18 @@ const LoginButton = withStyles({
 })(Button);
 
 export default function IndexPage() {
+  // 从 ../components/user.js 引入
   const handleLogout = () => {
     logout();
     location.reload();
   };
 
   const toLogin = () => {
+    // 跳转到登录页面
     Router.push("/login");
   };
 
+  // 导航栏显示登录按钮还是 用户名和注销按钮
   let button = null;
   if (isLogin()) {
     button = (

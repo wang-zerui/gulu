@@ -13,7 +13,7 @@ import API_CONFIG from "../components/API_CONFIG.js";
 import Router from "next/router";
 
 export default function IndexPage() {
-  // 样式表
+  // 总体样式表
   const useStyles = makeStyles({
     logincard: {
       position: "relative",
@@ -113,6 +113,11 @@ export default function IndexPage() {
       color: "rgba(74, 71, 71, 100)"
     }
   });
+  /**
+   * 这里注意，后面很多页面也用到了下面这个东西
+   * 这个style专门用来定义背景图片，是一个nextjs的坑
+   * 不可以放在上面的useStyles中
+   */
   const style = {
     bgd: {
       margin: "0",
@@ -125,6 +130,8 @@ export default function IndexPage() {
     }
   };
   const styles = useStyles();
+
+  // 自定义button，三个，参考
   const ColorButton = withStyles((theme) => ({
     root: {
       fontSize: 26
@@ -163,6 +170,11 @@ export default function IndexPage() {
       }
     }
   }))(ToggleButton);
+  
+  /**
+   * useState,
+   * react钩子
+   */
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [identity, setIdentity] = React.useState("patient");
@@ -170,6 +182,12 @@ export default function IndexPage() {
     setIdentity(newIdentity);
   };
 
+  /** 
+   * 上方弹窗，用到了Alert和snackbar组件，import { ToggleButton, Alert } from "@material-ui/lab";
+   * 和后面return 的SnackBar标签组合使用
+   * 后面有几个页面也用到了下面几行代码
+   * TODO:可以考虑封装成组件
+   */
   const [alertType, setAlertType] = useState("error");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -178,7 +196,8 @@ export default function IndexPage() {
     setMessage(msg);
     setOpen(true);
   }
-  // 登录逻辑
+  
+  // 登录业务逻辑
   const [loading, setLoading] = useState(false);
   const handleLogin = () => {
     if(password === "") {
@@ -218,6 +237,7 @@ export default function IndexPage() {
           setTimeout(() => {
             Router.push("/")
         }, 2000);
+        // 2s后跳转到"/"首页
         }else{
           showAlert("error", "登录失败，账号或密码错误");
           setLoading(false);
@@ -241,6 +261,7 @@ export default function IndexPage() {
       showAlert("error", "身份错误");
     }
   }
+  
   return (
     <div style={style.bgd}>
       <Snackbar
