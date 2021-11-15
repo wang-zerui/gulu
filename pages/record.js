@@ -6,6 +6,9 @@ import dynamic from "next/dynamic";
 import { isLogin } from "../components/user.js";
 
 
+// 这里这样处理，解决了一个nextjs的坑
+// 必须这样引入才能保证wavesurfer正常运行
+// 本页面主要内容也封装进了wave.js
 const Waveform = dynamic(() => import("../components/wave"), { ssr: false });
 
 const useStyles = makeStyles((theme) => ({
@@ -90,11 +93,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// userID获取，换成cookie获取或其他api
 const getUserId = () => {
   return "19030"
 }
 
 export default function Test(){
+    // 背景图样式
     const style = {
         bgd: {
             position: "fixed",
@@ -110,8 +115,10 @@ export default function Test(){
     };
     const classes = useStyles();
    
+    // alert
+    // 考虑封装以下吧
+    // 之前代码写的不完善，每次用到都要写这些
     const [alertType, setAlertType] = useState("error");
-    const [recordList, setRecordList] = useState([]);
     const [bar, setBar] = useState(false);
     const [message, setMessage] = useState("");
     const showAlert = (type, msg) => {
@@ -119,6 +126,9 @@ export default function Test(){
         setMessage(msg);
         setBar(true);
     }
+
+    // 调api获取recordList
+    const [recordList, setRecordList] = useState([]);
     useEffect(() => {
       fetch('http://8.131.62.53:8080/api/record/load?userId=' + getUserId(),{
       "method": "POST"

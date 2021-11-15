@@ -87,9 +87,12 @@ const LoginButton = withStyles({
   }
 })(Button);
 
+// 波形实现参考官方文档https://github.com/joewalnes/smoothie 
 const ts1 = new TimeSeries({});
 
 export default function BrainPowerPage() {
+
+  // 背景图style
   const styles = useStyles();
   const style = {
     bgd: {
@@ -105,7 +108,7 @@ export default function BrainPowerPage() {
     }
   };
 
-
+  // 上方alert
   const [alertType, setAlertType] = useState("error");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -118,7 +121,6 @@ export default function BrainPowerPage() {
     }, 2000);
   }
   
-  const [isConnected, setIsConnected] = useState(false);
   const [src, setSrc] = useState('')
   const [isPlay, setIsPlay] = useState(false)
   const playAudio = () => {
@@ -160,6 +162,10 @@ export default function BrainPowerPage() {
     { immediate: true },
   );
 
+  // websocket钩子，使用的不是react-hook，而是ahooks
+  // 用来控制连接状态
+  // https://ahooks.gitee.io/zh-CN/hooks/state/use-web-socket
+  const [isConnected, setIsConnected] = useState(false);
   const handleMessage = (event) => {
     console.log((new Date()).getTime());
     let data = JSON.parse(event.data);
@@ -172,17 +178,14 @@ export default function BrainPowerPage() {
     setInterval(delta);
     playAudio();
   };
-
   const handleOpen = (event) => {
     setIsConnected(true);
     showAlert("success", "连接成功");
   }
-
   const handleClose = () => {
     setIsConnected(false);
     showAlert("error", "断开连接");
   }
-
   const options = {
     onOpen: handleOpen,
     onMessage: handleMessage,
@@ -191,7 +194,6 @@ export default function BrainPowerPage() {
     reconnectLimit: 1000,
     reconnectInterval: 100,
   };
-  
   const {
     readyState,
     sendMessage,
@@ -201,12 +203,12 @@ export default function BrainPowerPage() {
   } = useWebSocket("ws://8.131.62.53:8080/api/connws", options);
 
 
+  // popover弹出框控制
+  // 参考https://mui.com/components/popover/
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handlePopOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handlePopClose = () => {
     setAnchorEl(null);
   };

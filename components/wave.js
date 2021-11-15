@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+// https://wavesurfer-js.org/
+// 实现了音频波形
 import WaveSurfer from 'wavesurfer.js'
 import { makeStyles, withStyles } from '@material-ui/core'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -10,10 +12,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import FolderIcon from '@mui/icons-material/Folder';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import HearingIcon from '@mui/icons-material/Hearing';
 
 
@@ -50,15 +49,20 @@ const useStyles = {
 class Waveform extends React.Component {
   constructor(props) {
     super(props)
+    // 一些状态
     this.state = {
+      // 第一个popover
       anchorEl: null,
+      // 第二个popover
       anchorEl1: null,
+      // 音频链接
       src: "",
     }
   }
   componentDidMount() {
     this.$el = ReactDOM.findDOMNode(this)
     this.$waveform = this.$el.querySelector('.wave')
+    // 创建wavesurfer实例
     this.wavesurfer = WaveSurfer.create({
       container: this.$waveform,
       waveColor: 'violet',
@@ -76,71 +80,75 @@ class Waveform extends React.Component {
   }
 
   render() {
+    // 获取组件参数
+    // recordList是从record.js传来的
     const { classes } = this.props;
+    const { recordList } = this.props;
+
+    // popover控制
     this.open = Boolean(this.state.anchorEl);
     this.id = this.open ? 'simple-popover' : undefined;
-
     this.open1 = Boolean(this.state.anchorEl1);
     this.id1 = this.open1 ? 'simple-popover' : undefined;
-
     const handleClose = () => {
       this.setState({
         anchorEl: null
       })
       console.log("anchorEl: ", this.state.anchorEl);
     };
-
     const handleClose1 = () => {
       this.setState({
         anchorEl1: null
       })
       console.log("anchorEl1: ", this.state.anchorEl1);
     };
-
-    const handleChange = (e, newTime) => {
-      e.target.defaultValue = e.target.value;
-      this.setState({
-        startTime: e.target.value
-      })
-    }
-
-    const handleChange2 = (e, newTime) => {
-      e.target.defaultValue = e.target.value;
-      this.setState({
-        endTime: e.target.value
-      })
-    }
-
     const handleClick = (event) => {
       this.setState({
         anchorEl: event.currentTarget
       })
     }
-
     const handleClick1 = (event) => {
       this.setState({
         anchorEl1: event.currentTarget
       })
     }
 
+    // 获取用户id
     const getUserId = () => {
       return 1
     };
 
+    // 绑定音频起始开始时间的选择的值
+    const handleChange = (e, newTime) => {
+      e.target.defaultValue = e.target.value;
+      this.setState({
+        startTime: e.target.value
+      })
+    }
+    const handleChange2 = (e, newTime) => {
+      e.target.defaultValue = e.target.value;
+      this.setState({
+        endTime: e.target.value
+      })
+    }
     let startSecond = "0";
     let endSecond = "0";
     let startTime = "2021-08-03T9:55";
     let endTime = "2021-08-03T9:56";
 
+    // 回放函数
     const replay = () => {
+      // startTime前端的默认格式和api接受的模式不太一样
+      // 需要进行一定处理
       const s = startTime.replace('T', ' ') + `:${startSecond}`;
       const e = endTime.replace('T', ' ') + `:${endSecond}`;
       const userId = getUserId();
       this.wavesurfer.load('http://8.131.62.53:8080/api/audio/details?userId=' + userId + '&start_time=' + s + '&end_time=' + e);
+      // 关闭popover
       handleClose();
+      // 播放音频
       this.wavesurfer.play();
     }
-
     const recordReplay = (uid, s, e) => {
       console.log("replayRecord", uid, s, e);
       const userId = uid;
@@ -148,7 +156,6 @@ class Waveform extends React.Component {
       handleClose1();
       this.wavesurfer.play();
     }
-    const { recordList } = this.props;
 
     const list = recordList.map((item, i) => (
       <ListItem disablePadding key={i} onClick={() => recordReplay(item.userId, item.start_time, item.end_time)}>
